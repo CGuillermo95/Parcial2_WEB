@@ -26,7 +26,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        
+        return view('Acrud.crear');
     }
 
     /**
@@ -37,6 +37,9 @@ class ClienteController extends Controller
      */
     public function store(StoreClienteRequest $request)
     {
+        Cliente::create($request->validated());
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente creado exitosamente');
     }
 
     /**
@@ -58,6 +61,7 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
+        return view('Acrud.editar', compact('cliente'));
     }
 
     /**
@@ -69,6 +73,9 @@ class ClienteController extends Controller
      */
     public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
+        $cliente->update($request->validated());
+
+        return redirect()->route('clientes.index')->with('success', 'Cliente editado exitosamente');
     }
 
     /**
@@ -79,5 +86,8 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
+        $cliente->delete();
+
+        return back();
     }
 }
